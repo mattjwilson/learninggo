@@ -1,4 +1,4 @@
-package router
+package main
 
 import (
 	"bufio"
@@ -10,6 +10,9 @@ import (
 func main() {
 	// toto
 	fmt.Println("Hit")
+	username, password, url := getParameters()
+	getCurrentPassword(url)
+	generateRequestHeader(username, password)
 }
 
 func getParameters() (string, string, string) {
