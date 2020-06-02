@@ -49,10 +49,20 @@ func getParameters() (string, string, string) {
 			fmt.Println("Something went sideways")
 		}
 
+		fmt.Print("Username: ")
+		fmt.Scan(&username)
+
+		fmt.Print("Password: ")
+		fmt.Scan(&password)
+
+		fmt.Print("URL: ")
+		fmt.Scan(&url)
+
 		fmt.Fprintln(file, url)
 		fmt.Fprintln(file, username)
-		fmt.Println(file, password)
+		fmt.Fprintln(file, password)
 	}
+
 	return username, password, url
 }
 
@@ -66,7 +76,7 @@ func getCurrentPassword(sourceUrl string) {
 }
 
 // Creates the header set required in order to pull information from my router
-func generateRequestHeader() []string {
+func generateRequestHeader(username string, password string) []string {
 	var returnVal []string
 
 	return returnVal
