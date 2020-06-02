@@ -22,27 +22,28 @@ func getParameters() (string, string, string) {
 
 	if _, err := os.Stat("settings.mjw"); err == nil {
 		// file exists
-		var defaultSettings string
+		file, err := os.Open("settings.mjw")
+		if err != nil {
+			fmt.Println("welp...something went sideways")
+			fmt.Println(err)
+			return "", "", ""
+		}
+		defer file.Close()
 
-		// reader := bufio.NewReader(os.Stdin)
-		fmt.Print("Would you like to use the discovered default settings?")
-		fmt.Scan(&defaultSettings)
-		//text, _ := reader.ReadString('\n')
-		//text = strings.Replace(text, "\n", "", -1)
-
-		fmt.Println(defaultSettings)
-		if defaultSettings == "y" {
-			file, err := os.OpenFile("settings.mjw", os.O_RDWR|os.O_WRONLY, 0644)
-			if err != nil {
-				fmt.Println("welp...something went sideways")
-				fmt.Println(err)
-				return "", "", ""
+		scanner := bufio.NewScanner(file)
+		count := 0
+		for scanner.Scan() {
+			switch count {
+			case 0:
+				url = scanner.Text()
+			case 1:
+				username = scanner.Text()
+			case 2:
+				password = scanner.Text()
+			default:
+				fmt.Println("Unexpected entry in our file: ", scanner.Text())
 			}
-			scanner := bufio.NewScanner(file)
-
-			for scanner.Scan() {
-				fmt.Println(scanner.Text())
-			}
+			count++
 		}
 	} else {
 		// file does not exist
@@ -65,7 +66,7 @@ func getParameters() (string, string, string) {
 		fmt.Fprintln(file, username)
 		fmt.Fprintln(file, password)
 	}
-
+	fmt.Println(username, password, url)
 	return username, password, url
 }
 
