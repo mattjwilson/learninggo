@@ -1,0 +1,8 @@
+package ch1
+
+import "fmt"
+
+func Calculate() {
+	var price int = 100
+	fmt.Println("Price is", price, "dollars.")
+}
